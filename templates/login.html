@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-box">
+    <h2>Welcome to GLS BB</h2>
+    <p>Enter your username and Mobile Number to login.</p>
+    <br>
+
+    <form method="POST" action="{{ url_for('login') }}" class="auth-form">
+        <input type="text" name="username" placeholder="Username (e.g., CYBERSHADEZ...)" required>
+        <input type="password" name="password" placeholder="Mobile Number" required>
+        <button type="submit" class="btn-primary">Login</button>
+    </form>
+
+
+</div>
+{% endblock %}

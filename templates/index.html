@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Mission Control</h1>
+    {% if current_user.role == 'admin' %}
+    <div class="global-controls" style="margin-top: 10px;">
+        <button onclick="setAllVisibility(true)" class="btn-submit"
+            style="background-color: var(--success-color); padding: 5px 10px; font-size: 0.9rem;">
+            <i class="fas fa-eye"></i> Make All Public
+        </button>
+        <button onclick="setAllVisibility(false)" class="btn-submit"
+            style="background-color: var(--secondary-color); padding: 5px 10px; font-size: 0.9rem;">
+            <i class="fas fa-eye-slash"></i> Make All Private
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Welcome Challenge Section -->
+{% if welcome_challenge and not welcome_challenge.solved %}
+<div class="welcome-section"
+    style="margin-bottom: 2rem; background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--accent-rgb), 0.1)); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--primary-color);">
+    <div class="challenge-header">
+        <h2 style="color: var(--primary-color); margin: 0;"><i class="fas fa-flag"></i> {{ welcome_challenge.title }}
+        </h2>
+        <span class="points" style="font-size: 1.2rem;">{{ welcome_challenge.points }} pts</span>
+    </div>
+    <p style="margin: 0.5rem 0;">{{ welcome_challenge.description }}</p>
+    <p style="color: var(--accent-color); font-size: 0.9rem; margin-top: 0.5rem;">
+        <i class="fas fa-lightbulb"></i> Hint: Right-click & Inspect -> Go to Console
+    </p>
+    <p
+        style="font-family: monospace; background: rgba(0,0,0,0.1); padding: 0.2rem 0.5rem; display: inline-block; border-radius: 4px;">
+        Flag Format: flag{...}
+    </p>
+    <!-- Psst! Looking for this? flag{w3lc0me_to_c7bersh@de2} -->
+
+    <div id="card-{{ welcome_challenge.id }}"
+        class="challenge-card-inner {% if welcome_challenge.solved %}solved{% endif %}">
+        {% if not welcome_challenge.solved %}
+        <div class="flag-input" style="max-width: 500px;">
+            <input type="text" id="flag-{{ welcome_challenge.id }}" class="input-field"
+                placeholder="Paste the welcome flag here...">
+            <button class="btn-submit" onclick="submitFlag({{ welcome_challenge.id }})">Claim Points</button>
+        </div>
+        {% else %}
+        <p style="color: var(--success-color); margin-top: 1rem; font-weight: bold; font-size: 1.1rem;">
+            <i class="fas fa-check-circle"></i> Welcome Flag Secured!
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<div class="tabs">
+    {% for category in categories %}
+    {% if category.name != 'Welcome' %}
+    <button class="tab-btn {% if category.name == 'Website' %}active{% endif %}"
+        onclick="openTab(event, 'cat-{{ category.id }}')">
+        {{ category.name }}
+    </button>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% for category in categories %}
+{% if category.name != 'Welcome' %}
+<div id="cat-{{ category.id }}" class="challenge-grid {% if category.name == 'Website' %}active{% endif %}">
+
+    <!-- Category Status & Admin Controls -->
+    <div style="grid-column: 1 / -1; margin-bottom: 1rem; text-align: center;">
+
+        {% if current_user.role == 'admin' %}
+        <div class="category-admin-panel"
+            style="background: rgba(0,0,0,0.05); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                <input type="text" id="cat-url-{{ category.id }}" value="{{ category.url or '' }}"
+                    placeholder="External URL (e.g. https://bugbounty...)" class="input-field"
+                    style="width: 300px; margin: 0;">
+                <button onclick="saveCategoryUrl({{ category.id }})" class="btn-submit" style="margin: 0;">Save
+                    URL</button>
+
+                <div style="width: 1px; height: 30px; background: var(--border-color); margin: 0 10px;"></div>
+
+                <button onclick="toggleCategoryVisibility({{ category.id }})" class="btn-submit"
+                    style="margin: 0; background-color: {{ 'var(--success-color)' if category.is_public else 'var(--secondary-color)' }};">
+                    <i class="fas fa-{{ 'eye' if category.is_public else 'eye-slash' }}"></i>
+                    {{ 'Public' if category.is_public else 'Private' }}
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if category.is_public and category.url %}
+        <div class="live-status"
+            style="background: rgba(40, 167, 69, 0.1); padding: 1rem; border-radius: 8px; border: 1px solid var(--success-color); display: inline-block;">
+            <p style="color: var(--success-color); font-weight: bold; margin: 0;">
+                <i class="fas fa-satellite-dish pulse"></i> Bug Bounty is LIVE
+            </p>
+            <a href="{{ category.url }}" target="_blank"
+                style="color: var(--primary-color); text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
+                Access Challenge <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+        {% else %}
+        <div class="coming-soon"
+            style="background: rgba(255, 193, 7, 0.1); padding: 1rem; border-radius: 8px; border: 1px solid var(--warning-color, #ffc107); display: inline-block;">
+            <p style="color: var(--warning-color, #ffc107); font-weight: bold; margin: 0;">
+                <i class="fas fa-hourglass-start"></i>
+                {% if not category.is_public %}
+                Category is currently hidden/locked
+                {% else %}
+                Bug Bounty is yet to start
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    {% for chal in challenges[category.name] %}
+    <div class="challenge-card {% if chal.solved %}solved{% endif %} {% if chal.locked %}locked{% endif %}"
+        id="card-{{ chal.id }}" {% if current_user.role=='admin' %}draggable="true" data-id="{{ chal.id }}"
+        style="cursor: move;" {% endif %}>
+        <div class="challenge-header">
+            <h3>{{ chal.title }}</h3>
+            <span class="points">{{ chal.points }} pts</span>
+            {% if current_user.role == 'admin' %}
+            <div class="admin-controls" draggable="false" ondragstart="event.preventDefault(); event.stopPropagation();"
+                style="font-size: 0.8rem; margin-left: auto;">
+                <a href="{{ url_for('edit_challenge', challenge_id=chal.id) }}"
+                    style="color: var(--accent-color); margin-right: 0.5rem; text-decoration: none;">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <span class="delete-btn" onclick="deleteChallenge({{ chal.id }})" onmousedown="event.stopPropagation();"
+                    style="color: #ff4444; cursor: pointer; margin-left: 10px;">
+                    <i class="fas fa-trash"></i> Del
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        <p>{{ chal.description }}</p>
+
+        {% if chal.free_hint %}
+        <p
+            style="color: var(--accent-color); font-weight: bold; margin-top: 0.5rem; background: rgba(var(--accent-rgb), 0.1); padding: 0.5rem; border-radius: 4px; border-left: 3px solid var(--accent-color);">
+            <i class="fas fa-lightbulb"></i> Hint: {{ chal.free_hint }}
+        </p>
+        {% endif %}
+
+        {% if chal.hint and not chal.solved %}
+        <div class="hint-section"
+            style="margin: 1rem 0; padding: 0.5rem; border: 1px dashed var(--secondary-color); border-radius: 8px;">
+            {% if chal.hint_unlocked %}
+            <p style="color: var(--accent-color); font-weight: bold;"><i class="fas fa-lightbulb"></i> Hint: {{
+                chal.hint }}</p>
+            {% else %}
+            <button class="btn-small" onclick="buyHint({{ chal.id }}, {{ chal.hint_cost }})"
+                style="background: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); cursor: pointer;">
+                <i class="fas fa-lock"></i> {% if chal.free_hint %}Unlock Another Hint{% else %}Unlock Hint{% endif %}
+                ({{ chal.hint_cost }} pts)
+            </button>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if not chal.solved %}
+        <div class="flag-input">
+            <input type="text" id="flag-{{ chal.id }}" class="input-field" placeholder="flag{...}" {% if chal.locked
+                %}disabled{% endif %}>
+            <button class="btn-submit" onclick="submitFlag('{{ chal.id }}')" {% if chal.locked %}disabled{% endif
+                %}>Submit</button>
+        </div>
+        {% else %}
+        <p style="color: var(--success-color); margin-top: 1rem; font-weight: bold;">Flag Captured!</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

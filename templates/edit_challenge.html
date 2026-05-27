@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Edit Challenge</h1>
+    <a href="{{ url_for('index') }}" class="btn-primary" style="text-decoration: none;">Back to Dashboard</a>
+</div>
+
+<div class="card"
+    style="background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); max-width: 800px; margin: 0 auto;">
+    <form action="{{ url_for('edit_challenge', challenge_id=challenge.id) }}" method="POST"
+        style="display: grid; gap: 1rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div>
+                <label>Title</label>
+                <input type="text" name="title" value="{{ challenge.title }}" class="input-field" required>
+            </div>
+            <div>
+                <label>Category</label>
+                <select name="category_id" class="input-field" required>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if cat.id==challenge.category_id %}selected{% endif %}>{{ cat.name
+                        }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label>Description</label>
+            <textarea name="description" class="input-field" rows="4" required>{{ challenge.description }}</textarea>
+        </div>
+
+        <div>
+            <label>Free Hint</label>
+            <textarea name="free_hint" class="input-field" rows="2"
+                placeholder="Visible to everyone">{{ challenge.free_hint or '' }}</textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+            <div>
+                <label>Flag</label>
+                <input type="text" name="flag" value="{{ challenge.flag }}" class="input-field" required>
+            </div>
+            <div>
+                <label>Points</label>
+                <input type="number" name="points" value="{{ challenge.points }}" class="input-field" required>
+            </div>
+        </div>
+
+        <div>
+            <label>Prerequisite ID</label>
+            <input type="number" name="prerequisite_id" value="{{ challenge.prerequisite_id or '' }}"
+                class="input-field">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 3fr 1fr; gap: 1rem;">
+            <div>
+                <label>Hint</label>
+                <input type="text" name="hint" value="{{ challenge.hint or '' }}" class="input-field">
+            </div>
+            <div>
+                <label>Hint Cost</label>
+                <input type="number" name="hint_cost" value="{{ challenge.hint_cost or 25 }}" class="input-field">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Update Challenge</button>
+    </form>
+</div>
+{% endblock %}
