@@ -16,6 +16,31 @@ The GLS Bug Bounty Platform is a secure, enterprise-grade Capture-The-Flag (CTF)
 **LIVE Demo:** [bit.ly/glsBB](https://bit.ly/glsBB)  
 *(Currently deployed and hosted on **Oracle Cloud Free Tier**)*
 
+## Demo & Screenshots
+
+**Watch the full walkthrough on YouTube:**
+
+**[Watch the walkthrough on YouTube](https://youtu.be/jxuVYR-oZ_4)**
+
+<details>
+<summary><b>View Screenshots (Click to Expand)</b></summary>
+
+### Participant Experience
+![Login Screen](public/login.png)
+![Dashboard](public/dashboard.png)
+![Hint System](public/hint_popup.png)
+![Challenge Solved](public/solved.png)
+
+### Administration & Control Panel
+![Admin Dashboard](public/dashboard_admin.png)
+![Global Control Panel](public/admin_control_panel.png)
+![Manage Categories](public/admin_manage_categories.png)
+![User Management](public/admin_user_manage.png)
+![Detailed User Info](public/admin_user_info_detail.png)
+![Admin Leaderboard View](public/leaderboard_admin.png)
+
+</details>
+
 ## Key Features
 
 ### Participant Interface
