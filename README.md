@@ -1,37 +1,50 @@
 # GLS Bug Bounty Platform
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask" />
+  <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Oracle_Cloud-F80000?style=for-the-badge&logo=oracle&logoColor=white" alt="Oracle Cloud" />
+  <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="Ubuntu" />
+  <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx" />
+</p>
+
 ## Overview
-The GLS Bug Bounty Platform is a secure, enterprise-grade Capture-The-Flag (CTF) environment designed for hosting internal security challenges, hackathons, and training events. Built on a lightweight Flask (Python) architecture with SQLite, it offers high performance and ease of deployment on Oracle Cloud Infrastructure.
+The GLS Bug Bounty Platform is a secure, enterprise-grade Capture-The-Flag (CTF) environment designed for hosting internal security challenges, hackathons, and training events. Built on a lightweight Flask (Python) architecture with SQLite, it offers high performance and ease of deployment. 
+
+**LIVE Demo:** [bit.ly/glsBB](https://bit.ly/glsBB)  
+*(Currently deployed and hosted on **Oracle Cloud Free Tier**)*
 
 ## Key Features
 
 ### Participant Interface
 *   **Challenge Dashboard**: Centralized view for filtering challenges by category and difficulty.
-*   **Flag Verification**: Real-time validation engine for flag submissions.
+*   **Flag Verification**: Real-time validation engine for flag submissions to provide instant feedback.
 *   **Hint System**: Automated hint delivery with configurable point deductions.
-*   **Live Leaderboard**: Real-time ranking system tracking user progress.
+*   **Live Leaderboard**: Real-time ranking system tracking user progress and scores dynamically.
 *   **Progression Logic**: Prerequisite system to unlock advanced challenges upon completion of foundational tasks.
 
 ### Administration & Control
-*   **Admin Console**: Comprehensive dashboard (`/admin`) for platform management.
+*   **Admin Console**: Comprehensive, authenticated dashboard (`/admin`) for full platform management.
 *   **User Management**:
     *   Full user registry view.
-    *   Ban/Unban functionality for rule enforcement.
+    *   Ban/Unban functionality for strict rule enforcement during events.
     *   Server-side password reset capabilities.
 *   **Challenge Management**:
-    *   CRUD operations for challenges.
-    *   Configuration of points, flags, hint costs, and category assignments.
+    *   Full CRUD (Create, Read, Update, Delete) operations for challenges.
+    *   Detailed configuration of points, flags, hint costs, and category assignments.
 *   **Visibility Control**:
-    *   Global "Go Live" toggle for immediate event launch.
-    *   Granular visibility settings per category.
-*   **Reporting**: Data export functionality for post-event analysis and auditing.
+    *   Global "Go Live" toggle for immediate event launch and synchronization.
+    *   Granular visibility settings per category to stage challenge releases.
+*   **Reporting**: Data export functionality to track metrics, post-event analysis, and auditing.
 
 ## Technology Stack
 
-*   **Backend Framework**: Python 3.x, Flask
-*   **Database**: SQLite (optimized with Write-Ahead Logging for concurrency)
-*   **ORM**: SQLAlchemy
-*   **Frontend**: HTML5, CSS3, Vanilla JavaScript
+*   **Backend Framework**: Python 3.x, Flask (Lightweight, extensible)
+*   **Database**: SQLite (Optimized with Write-Ahead Logging (WAL) for high concurrency)
+*   **ORM**: SQLAlchemy (Secure database interactions preventing SQL injection)
+*   **Frontend**: HTML5, CSS3, Vanilla JavaScript (Fast, responsive, no bloated dependencies)
 *   **Web Server**: Gunicorn (WSGI) behind Nginx (Reverse Proxy)
 *   **Operating System**: Ubuntu Linux (Oracle Cloud / AWS compatible)
 
@@ -68,7 +81,7 @@ sudo systemctl start bb_platform
 sudo systemctl restart nginx
 ```
 
-For detailed, step-by-step instructions including screenshots and troubleshooting, please refer to **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+For detailed, step-by-step instructions including screenshots, security configurations, and troubleshooting, please refer to **[DEPLOYMENT.md](DEPLOYMENT.md)**.
 
 ## Administration Guide
 
@@ -97,14 +110,15 @@ python3
 ## Project Structure
 
 *   `app.py`: Core application logic and routing.
-*   `models.py`: Database schema definitions.
+*   `models.py`: Database schema definitions (SQLAlchemy).
 *   `config.py`: Application configuration and environment variables.
 *   `requirements.txt`: Python dependency manifest.
-*   `run_prod.py`: WSGI entry point for production servers.
-*   `static/`: Static assets (CSS, JavaScript, Images).
-*   `templates/`: HTML templates.
-*   `instance/`: Database storage directory.
+*   `run_prod.py`: WSGI entry point for production servers using Waitress.
+*   `static/`: Static assets (CSS styles, Vanilla JS scripts, Images).
+*   `templates/`: HTML templates rendered via Jinja2.
+*   `instance/`: Database storage directory (`ctf.db`).
 *   `DEPLOYMENT.md`: Comprehensive cloud deployment documentation.
+*   `make_zip.py`: Build script to bundle the application for deployment.
 
 ---
 **GLS Bug Bounty Platform**
