@@ -1,7 +1,7 @@
 # GLS Bug Bounty Platform
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Python-3670A0?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask" />
   <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
@@ -146,4 +146,5 @@ python3
 *   `make_zip.py`: Build script to bundle the application for deployment.
 
 ---
-**GLS Bug Bounty Platform**
+**GLS Bug Bounty Platform**<br>
+Created with ❤️ by [Dhiptanshu Malik](https://www.linkedin.com/in/dhiptanshu)
