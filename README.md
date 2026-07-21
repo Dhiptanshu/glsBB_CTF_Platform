@@ -115,7 +115,7 @@ Navigate to `/login` and authenticate with administrative credentials to access 
 
 ### Database Management
 *   **Initialization**: The database is automatically initialized on the first application run.
-*   **Reset**: Execute `python reset_db.py` to purge all data and re-initialize the schema.
+*   **Reset**: Execute `python scripts/reset_db.py` to purge all data and re-initialize the schema.
 *   **Migrations**: Schema changes typically require migration scripts. See `add_category_public_column.py` for examples of stateless schema updates.
 
 ### Password Recovery
@@ -143,7 +143,7 @@ python3
 *   `templates/`: HTML templates rendered via Jinja2.
 *   `instance/`: Database storage directory (`ctf.db`).
 *   `DEPLOYMENT.md`: Comprehensive cloud deployment documentation.
-*   `make_zip.py`: Build script to bundle the application for deployment.
+*   `scripts/make_zip.py`: Build script to bundle the application for deployment.
 
 ## License
 
