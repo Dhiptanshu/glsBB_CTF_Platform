@@ -145,6 +145,25 @@ python3
 *   `DEPLOYMENT.md`: Comprehensive cloud deployment documentation.
 *   `make_zip.py`: Build script to bundle the application for deployment.
 
----
-**GLS Bug Bounty Platform**<br>
-Created with ❤️ by [Dhiptanshu Malik](https://www.linkedin.com/in/dhiptanshu)
+## License
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
+
+## Original Author
+
+**Dhiptanshu Malik**
+
+Creator & Lead Developer
+
+- GitHub: https://github.com/Dhiptanshu
+- LinkedIn: https://www.linkedin.com/in/dhiptanshu
+
+## Project Continuation
+
+This project was originally developed for GLS University as an educational Capture-The-Flag (CTF) and Bug Bounty Platform.
+
+Future students and contributors are encouraged to improve, extend, and maintain the platform under the terms of the GNU GPL v3 License.
+
+Please preserve the original copyright notice, license, and Git history whenever possible.
+
+© 2026 Dhiptanshu Malik
